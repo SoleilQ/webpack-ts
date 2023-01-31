@@ -9,14 +9,12 @@ const Dotenv = require('dotenv-webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-console.log('🐻-->', process.env.DB_HOST);
-
 const webpackBaseConfig = {
   entry: {
     main: resolve('src/web/index.tsx'),
   },
   output: {
-    path: resolve(process.cwd(), 'dist'),
+    path: resolve(process.cwd(), 'dist/web'),
   },
   cache: {
     type: 'filesystem',
@@ -40,8 +38,18 @@ const webpackBaseConfig = {
         test: /\.css$/i,
         include: resolve(__dirname, 'src'),
         use: [
-          MiniCssExtractPlugin.loader,
+          !_modeflag ? 'style-loader' : MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.less$/i,
+        include: resolve(__dirname, 'src'),
+        use: [
+          !_modeflag ? 'style-loader' : MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { importLoaders: 2 } },
+          'less-loader',
           'postcss-loader',
         ],
       },
@@ -123,12 +131,13 @@ const webpackBaseConfig = {
   resolve: {
     alias: {
       '@components': resolve('src/web/components'),
+      '@layouts': resolve('src/web/layouts'),
       '@hooks': resolve('src/web/hooks'),
       '@pages': resolve('src/web/pages'),
       '@assets': resolve('src/web/assets'),
+      '@store': resolve('src/web/store'),
       '@states': resolve('src/web/states'),
       '@utils': resolve('src/web/utils'),
-      '@layouts': resolve('src/web/layouts'),
     },
     extensions: ['.js', '.ts', '.tsx', 'jsx'],
   },

@@ -1,37 +1,36 @@
 import PageNotFoundView from '@layouts/PageNotFoundView';
 import React, { lazy, Suspense } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
-import MainLayout from '@pages/MainLayout';
-// import DemoLayout from '@pages/DemoLayout';
 import Loading from '@components/Loading';
 import MainView from '@pages/MainView';
+import BasicLayout from '@layouts/BasicLayout';
+import Login from '@pages/Login';
 
 const Layout = () => (
   <Suspense fallback={<Loading />}>
-    <MainLayout />
+    <BasicLayout />
   </Suspense>
 );
 
+const Jotai = lazy(() => import('@pages/Jotai'));
+
 const Routes: RouteObject[] = [];
+
+const loginRoute = {
+  path: '/login',
+  element: <Login />,
+};
+
 const mainRoutes = {
   path: '/',
   element: <Layout />,
   children: [
     { path: '*', element: <Navigate to="/404" /> },
     { path: '/', element: <MainView /> },
+    { path: '/jotai', element: <Jotai /> },
     { path: '404', element: <PageNotFoundView /> },
   ],
 };
 
-const demoRoutes = {
-  path: 'demo',
-  // element: (
-  //   <Suspense fallback={<Loading />}>
-  //     <DemoLayout />
-  //   </Suspense>
-  // ),
-  element: <Layout />,
-  children: [{ path: '*', element: <Navigate to="/404" /> }],
-};
-Routes.push(mainRoutes, demoRoutes);
+Routes.push(loginRoute, mainRoutes);
 export default Routes;

@@ -27,15 +27,15 @@
     "experimentalDecorators": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "paths": {
       "@components/*": ["src/web/components/*"],
-      "@assets/*": ["src/web/assets/*"],
       "@layouts/*": ["src/web/layouts/*"],
+      "@assets/*": ["src/web/assets/*"],
       "@pages/*": ["src/web/pages/*"],
       "@hooks/*": ["src/web/hooks/*"],
-      "@states/*": ["src/web/states/*"],
-      "@utils/*": ["src/web/utils/*"],
+      "@store/*": ["src/web/store/*"],
+      "@utils/*": ["src/web/utils/*"]
     }
   },
   "include": ["src", "tests"],

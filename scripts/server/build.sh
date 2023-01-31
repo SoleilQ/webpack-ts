@@ -1,0 +1,1 @@
+esbuild src/server/server.ts --bundle --outdir=dist/server --platform=node --external:esbuild
